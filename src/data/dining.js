@@ -1,3 +1,6 @@
+import bitmeImg from '../assets/bite-me.png';
+import relaxImg from '../assets/relax-unwind.png';
+import cuisineImg from '../assets/local-cuisine.png';
 /**
  * Dining & F&B outlets.
  * TODO (API): Replace with GET /api/dining
@@ -13,7 +16,7 @@ const DINING = [
     hours:       '7:00 AM – 10:00 PM',
     type:        'Restaurant',
     // TODO: Replace with actual local cuisine photo (Sarawak laksa, kolo mee, etc.)
-    image: 'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?auto=format&fit=crop&w=700&q=80',
+    image: cuisineImg,
     featured:    false,
   },
   {
@@ -25,7 +28,7 @@ const DINING = [
     hours:       '11:00 AM – 12:00 AM',
     type:        'Lounge & Bar',
     // TODO: Replace with actual Tabas Lounge bartender/staff photo
-    image: 'https://images.unsplash.com/photo-1559526324-593bc073d938?auto=format&fit=crop&w=700&q=80',
+    image: relaxImg,
     featured:    true,
   },
   {
@@ -37,7 +40,7 @@ const DINING = [
     hours:       '8:00 AM – 6:00 PM',
     type:        'Café',
     // TODO: Replace with actual Bite Me Cafe photo
-    image: 'https://images.unsplash.com/photo-1481391319762-47dff72954d9?auto=format&fit=crop&w=700&q=80',
+    image: bitmeImg,
     featured:    false,
   },
 ];

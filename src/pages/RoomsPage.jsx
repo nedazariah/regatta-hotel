@@ -222,7 +222,7 @@ function ExpandedRoomPanel({ room, isMobile, booking, onReserve }) {
       }}
     >
       {/* LEFT — photo carousel */}
-      <div style={{ position: 'relative', height: isMobile ? 280 : 480, background: '#111' }}>
+      <div style={{ position: 'relative', height: isMobile ? 280 : '100%', background: '#111' }}>
         {room.images.map((src, i) => (
           <img
             key={src}

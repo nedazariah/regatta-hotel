@@ -6,23 +6,27 @@ import DiningSection from '../components/sections/DiningSection';
 import ExperiencesSection from '../components/sections/ExperiencesSection';
 import RoomsSection from '../components/sections/RoomsSection';
 import useWindowSize from '../hooks/useWindowSize';
+import heroImg from '../assets/hero.png';
+import tabasImg from '../assets/tabas.png';
+import tabas2Img from '../assets/tabas2.png';
+import tabas3Img from '../assets/tabas3.png';
+import tabas4Img from '../assets/tabas4.png';
 
 /**
  * Hero background — hotel reception/lobby photo.
  * TODO: Replace with actual hosted hotel lobby photo.
  */
-const HERO_IMAGE =
-  'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1800&q=85';
+const HERO_IMAGE = heroImg;
 
 /**
  * Tabas Lounge carousel images.
  * TODO: Replace with actual Tabas Lounge photos.
  */
 const LOUNGE_IMAGES = [
-  'https://images.unsplash.com/photo-1575037614876-c38a4d44f5b8?auto=format&fit=crop&w=1800&q=85',
-  'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=1800&q=85',
-  'https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?auto=format&fit=crop&w=1800&q=85',
-  'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=1800&q=85',
+  tabasImg,
+  tabas2Img,
+  tabas3Img,
+  tabas4Img,
 ];
 
 export default function HomePage() {

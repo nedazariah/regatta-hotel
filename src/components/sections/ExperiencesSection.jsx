@@ -1,5 +1,6 @@
 import theme from '../../styles/theme';
 import useWindowSize from '../../hooks/useWindowSize';
+import expImg from '../../assets/experience.png';
 
 /**
  * ExperiencesSection
@@ -8,8 +9,7 @@ import useWindowSize from '../../hooks/useWindowSize';
  *
  * TODO: Replace HORNBILL_IMG with actual hosted Sarawak hornbill photo.
  */
-const HORNBILL_IMG =
-  'https://images.unsplash.com/photo-1590418606746-018840f9cd0f?auto=format&fit=crop&w=1200&q=85';
+const HORNBILL_IMG = expImg;
 
 export default function ExperiencesSection() {
   const { isMobile } = useWindowSize();

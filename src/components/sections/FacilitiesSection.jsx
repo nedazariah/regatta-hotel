@@ -61,7 +61,7 @@ export default function FacilitiesSection() {
         <h2
           style={{
             fontFamily:   theme.fonts.serif,
-            fontSize:     isMobile ? 36 : isTablet ? 42 : 52,
+            fontSize:     isMobile ? 36 : isTablet ? 42 : 66,
             fontWeight:   400,
             color:        theme.colors.white,
             lineHeight:   1.1,
@@ -82,7 +82,7 @@ export default function FacilitiesSection() {
         <p
           style={{
             color:      'rgba(255,255,255,0.55)',
-            fontSize:   14,
+            fontSize:   16,
             lineHeight: 1.8,
             marginTop:  24,
             maxWidth:   300,

@@ -26,7 +26,8 @@ export default function RoomsSection() {
         background:       theme.colors.navy,
         height:           isMobile ? 'auto' : '100vh',
         minHeight:        isMobile ? 'auto' : '100vh',
-        display:          isMobile ? 'block' : 'flex',
+        display:          'flex',
+        flexDirection:    isMobile ? 'column-reverse' : 'row',
         alignItems:       'center',
         justifyContent:   'center',
         padding:          isMobile ? '48px 20px' : '48px 40px',
@@ -40,8 +41,8 @@ export default function RoomsSection() {
       <div
         style={{
           display:        'flex',
-          width:          '80%',
-          height:         '90%',
+          width:          '100%',
+          height:         '100%',
           padding:        '20px',
           flexDirection:  'column',
           alignItems:     'center',
@@ -97,8 +98,8 @@ export default function RoomsSection() {
           padding:        isMobile ? '48px 32px 36px' : '10px 10px',
           display:        'flex',
           flexDirection:  'column',
-          alignItems:     'center',
-          justifyContent: 'center',
+          alignItems:     isMobile ? 'center' : 'end',
+          justifyContent: isMobile ? 'center' : 'end',
           background:     theme.colors.navy,
           minHeight:      isMobile ? 'auto' : undefined,
         }}
@@ -119,7 +120,7 @@ export default function RoomsSection() {
         <h2
           style={{
             fontFamily:   theme.fonts.serif,
-            fontSize:     isMobile ? 36 : 52,
+            fontSize:     isMobile ? 36 : 66,
             fontWeight:   400,
             color:        theme.colors.white,
             lineHeight:   1.1,
@@ -127,14 +128,14 @@ export default function RoomsSection() {
           }}
         >
           Rooms
-          <em style={{ display: 'block', fontStyle: 'italic', color: '#D4B47A', textAlign: 'center' }}>
+          <em style={{ display: 'block', fontStyle: 'italic', color: '#D4B47A', textAlign: isMobile ? 'center' : 'right' }}>
             &
           </em>
         </h2>
         <h2
           style={{
             fontFamily:   theme.fonts.serif,
-            fontSize:     isMobile ? 36 : 52,
+            fontSize:     isMobile ? 36 : 66,
             fontWeight:   400,
             color:        theme.colors.white,
             lineHeight:   1.1,
@@ -143,6 +144,17 @@ export default function RoomsSection() {
         >
           Suites
         </h2>
+        <p
+          style={{
+            color:      'rgba(255,255,255,0.55)',
+            fontSize:   16,
+            lineHeight: 1.8,
+            marginTop:  24,
+            maxWidth:   300,
+          }}
+        >
+          Experience refined comfort and elegant hospitality. Book your room today and enjoy a memorable stay designed for relaxation and indulgence.
+        </p>
       </div>
     </section>
   );

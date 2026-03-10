@@ -114,7 +114,7 @@ function ActiveCard({ item, isMobile }) {
       }}
     >
       {/* Photo */}
-      <div style={{ flex: 1, overflow: 'hidden', borderRadius: 4, minHeight: isMobile ? 260 : 0 }}>
+      <div style={{ flex: 1, overflow: 'hidden', borderRadius: 2, minHeight: isMobile ? 260 : 0 }}>
         <img
           src={item.image}
           alt={item.name}
@@ -122,7 +122,7 @@ function ActiveCard({ item, isMobile }) {
             width:          '100%',
             height:         '100%',
             objectFit:      'cover',
-            objectPosition: 'center top',
+            objectPosition: 'center center',
             display:        'block',
             transition:     'transform 0.5s ease',
           }}

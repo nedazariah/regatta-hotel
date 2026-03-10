@@ -1,3 +1,7 @@
+import poolImg from '../assets/pool.png';
+import gymImg from '../assets/gym.png';
+import tabasImg from '../assets/tabas.png';
+import meetingImg from '../assets/meeting.png';
 /**
  * Hotel facilities.
  * TODO (API): Replace with GET /api/facilities
@@ -13,7 +17,7 @@ const FACILITIES = [
     hours:       '7:00 AM – 10:00 PM',
     floor:       'Rooftop',
     // TODO: Replace with actual hotel pool photo
-    image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=900&q=80',
+    image: poolImg,
   },
   {
     id:          'sky-gym',
@@ -24,7 +28,7 @@ const FACILITIES = [
     hours:       '6:00 AM – 11:00 PM',
     floor:       'Upper Level',
     // TODO: Replace with actual hotel gym photo
-    image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=900&q=80',
+    image: gymImg,
   },
   {
     id:          'tabas-lounge',
@@ -35,7 +39,7 @@ const FACILITIES = [
     hours:       '11:00 AM – 12:00 AM',
     floor:       'Ground Floor',
     // TODO: Replace with actual Tabas Lounge photo
-    image: 'https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?auto=format&fit=crop&w=900&q=80',
+    image: tabasImg,
   },
   {
     id:          'meetings-banquet',
@@ -46,7 +50,7 @@ const FACILITIES = [
     hours:       'By appointment',
     floor:       'Ground Floor',
     // TODO: Replace with actual banquet hall photo
-    image: 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=900&q=80',
+    image: meetingImg,
   },
 ];
 
