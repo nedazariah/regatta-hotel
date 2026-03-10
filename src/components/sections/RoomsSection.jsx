@@ -26,7 +26,7 @@ export default function RoomsSection() {
         background:       theme.colors.navy,
         height:           isMobile ? 'auto' : '100vh',
         minHeight:        isMobile ? 'auto' : '100vh',
-        display:          'flex',
+        display:          isMobile ? 'block' : 'flex',
         alignItems:       'center',
         justifyContent:   'center',
         padding:          isMobile ? '48px 20px' : '48px 40px',
