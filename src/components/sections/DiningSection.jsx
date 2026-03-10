@@ -2,6 +2,7 @@ import { useState } from 'react';
 import theme from '../../styles/theme';
 import { DINING } from '../../data/dining';
 import useWindowSize from '../../hooks/useWindowSize';
+import borderImg from '../../assets/borders.png';
 
 /**
  * DiningSection — full-screen carousel.
@@ -44,6 +45,17 @@ export default function DiningSection() {
         position:    'relative',
       }}
     >
+      <div
+        style={{
+          position:          'absolute',
+          inset:             0,
+          backgroundImage:   `url(${borderImg})`,
+          backgroundSize:    '100% 100%',
+          backgroundRepeat:  'no-repeat',
+          pointerEvents:     'none',
+          zIndex:            0,
+        }}
+      />
       {/* ── Cards row ─────────────────────────────────── */}
       <div
         style={{

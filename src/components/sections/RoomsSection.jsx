@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import theme from '../../styles/theme';
 import { ROOMS } from '../../data/rooms';
 import useWindowSize from '../../hooks/useWindowSize';
+import borderImg from '../../assets/borders.png';
 
 export default function RoomsSection() {
   const { isMobile } = useWindowSize();
@@ -35,11 +36,24 @@ export default function RoomsSection() {
         overflow:         'hidden',
         position:         'relative',
         border:           '1px solid',
-        borderBottomColor: theme.colors.roseGold,
+        borderBottomColor: theme.colors.gold,
       }}
     >
       <div
         style={{
+          position:          'absolute',
+          inset:             0,
+          backgroundImage:   `url(${borderImg})`,
+          backgroundSize:    '100% 100%',
+          backgroundRepeat:  'no-repeat',
+          pointerEvents:     'none',
+          zIndex:            0,
+        }}
+      />
+      <div
+        style={{
+          position:       'relative',
+          zIndex:         1,  
           display:        'flex',
           width:          '100%',
           height:         '100%',
@@ -92,8 +106,10 @@ export default function RoomsSection() {
 
       <div
         style={{
+          position:       'relative',
+          zIndex:          1,
           flex:           '0 0 auto',
-          height:         '90%',
+          height:         '50%',
           width:          isMobile ? '100%' : '20%',
           padding:        isMobile ? '48px 32px 36px' : '10px 10px',
           display:        'flex',

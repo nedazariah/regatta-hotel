@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import theme from '../../styles/theme';
 import { FACILITIES } from '../../data/facilities';
 import useWindowSize from '../../hooks/useWindowSize';
+import borderImg from '../../assets/borders.png';
 
 export default function FacilitiesSection() {
   const { isMobile, isTablet } = useWindowSize();
@@ -29,8 +30,21 @@ export default function FacilitiesSection() {
         flexDirection: isMobile ? 'column' : 'row',
         overflow:      'hidden',
         padding:       isMobile ? '0' : '0',
+        overflow:    'hidden',
+        position:    'relative',
       }}
     >
+      <div
+        style={{
+          position:          'absolute',
+          inset:             0,
+          backgroundImage:   `url(${borderImg})`,
+          backgroundSize:    '100% 100%',
+          backgroundRepeat:  'no-repeat',
+          pointerEvents:     'none',
+          zIndex:            0,
+        }}
+      />
       {/* ── LEFT: text panel ────────────────────────────── */}
       <div
         style={{
