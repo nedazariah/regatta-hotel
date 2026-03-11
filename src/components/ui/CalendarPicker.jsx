@@ -5,50 +5,124 @@ import 'react-day-picker/style.css';
 import theme from '../../styles/theme';
 import { today, formatDateShort } from '../../utils/dateUtils';
 import useWindowSize from '../../hooks/useWindowSize';
+import borderImg from '../../assets/borders.png';
 
-// ── Gold colour overrides for react-day-picker ───────────────────
-// Injected once into <head> so the CSS variables apply to every
-// portal-rendered picker regardless of where it mounts in the DOM.
-const PICKER_STYLE_ID = 'rdp-gold-overrides';
+// ── DayPicker colour overrides ───────────────────────────────────
+// IMPORTANT: We only override colours/backgrounds here.
+// We do NOT touch width, flex, display, or any layout property —
+// those belong to react-day-picker and overriding them breaks the grid.
+const PICKER_STYLE_ID = 'rdp-navy-overrides';
 if (typeof document !== 'undefined' && !document.getElementById(PICKER_STYLE_ID)) {
   const s = document.createElement('style');
   s.id = PICKER_STYLE_ID;
   s.textContent = `
-    /* Selected start / end day — filled circle */
-    .rdp-day_button[aria-selected="true"],
-    .rdp-selected .rdp-day_button {
-      background-color: #C9A84C !important;
-      color: #0B1829 !important;
-      border-color: #C9A84C !important;
+    /* ── Erase every internal background — colour only, no layout ── */
+    .rdp-navy .rdp,
+    .rdp-navy .rdp-root,
+    .rdp-navy .rdp-months,
+    .rdp-navy .rdp-month,
+    .rdp-navy .rdp-month_grid,
+    .rdp-navy .rdp-month_caption,
+    .rdp-navy .rdp-nav,
+    .rdp-navy .rdp-week,
+    .rdp-navy .rdp-weekdays,
+    .rdp-navy .rdp-day,
+    .rdp-navy table,
+    .rdp-navy thead,
+    .rdp-navy tbody,
+    .rdp-navy tr,
+    .rdp-navy td,
+    .rdp-navy th {
+      background-color: transparent !important;
+      box-shadow:       none !important;
+      border-radius:    0 !important;
     }
 
-    /* Days in the range between start and end */
-    .rdp-range_middle .rdp-day_button {
+    /* ── Day text ── */
+    .rdp-navy .rdp-day_button {
+      color:       rgba(255,255,255,0.75) !important;
+      font-family: 'DM Sans', sans-serif !important;
+    }
+
+    /* ── Weekday headers — gold ── */
+    .rdp-navy .rdp-weekday {
+      color:          #C9A84C !important;
+      font-size:      11px !important;
+      font-weight:    700 !important;
+      letter-spacing: 0.12em !important;
+      text-transform: uppercase !important;
+    }
+
+    /* ── Month/year heading — white ── */
+    .rdp-navy .rdp-month_caption,
+    .rdp-navy .rdp-caption_label {
+      color:          #ffffff !important;
+      font-family:    'DM Sans', sans-serif !important;
+      font-weight:    700 !important;
+      letter-spacing: 0.1em !important;
+      text-transform: uppercase !important;
+      font-size:      13px !important;
+    }
+
+    /* ── Nav arrows — gold ── */
+    .rdp-navy .rdp-button_previous,
+    .rdp-navy .rdp-button_next {
+      color:            #C9A84C !important;
+      border-color:     rgba(201,168,76,0.35) !important;
+      background-color: transparent !important;
+    }
+    .rdp-navy .rdp-button_previous svg,
+    .rdp-navy .rdp-button_next svg {
+      stroke: #C9A84C !important;
+      fill:   #C9A84C !important;
+    }
+    .rdp-navy .rdp-button_previous:hover,
+    .rdp-navy .rdp-button_next:hover {
+      background-color: rgba(201,168,76,0.12) !important;
+    }
+
+    /* ── Disabled / outside ── */
+    .rdp-navy .rdp-day--disabled .rdp-day_button {
+      color: rgba(255,255,255,0.18) !important;
+    }
+    .rdp-navy .rdp-day--outside .rdp-day_button {
+      color: rgba(255,255,255,0.2) !important;
+    }
+
+    /* ── Hover ── */
+    .rdp-navy .rdp-day_button:hover:not(:disabled) {
       background-color: rgba(201,168,76,0.18) !important;
-      color: #1C1C1C !important;
-      border-radius: 0 !important;
+      color:            #ffffff !important;
     }
 
-    /* Today's date indicator */
-    .rdp-today .rdp-day_button {
-      border: 1px solid #C9A84C !important;
-      color: #C9A84C !important;
-      font-weight: 700;
+    /* ── Today ── */
+    .rdp-navy .rdp-today .rdp-day_button {
+      border:      1px solid #C9A84C !important;
+      color:       #C9A84C !important;
+      font-weight: 700 !important;
     }
 
-    /* Hover state on unselected days */
-    .rdp-day_button:hover:not([aria-selected="true"]) {
-      background-color: rgba(201,168,76,0.15) !important;
-      color: #0B1829 !important;
-    }
-
-    /* Range start/end caps keep full circle */
-    .rdp-range_start .rdp-day_button,
-    .rdp-range_end .rdp-day_button {
+    /* ── Selected start / end — gold circle ── */
+    .rdp-navy .rdp-range_start .rdp-day_button,
+    .rdp-navy .rdp-range_end .rdp-day_button,
+    .rdp-navy .rdp-selected .rdp-day_button {
       background-color: #C9A84C !important;
-      color: #0B1829 !important;
-      border-color: #C9A84C !important;
-      font-weight: 700;
+      color:            #0B1829 !important;
+      border-color:     #C9A84C !important;
+      font-weight:      700 !important;
+    }
+
+    /* ── Range middle — subtle tint ── */
+    .rdp-navy .rdp-range_middle .rdp-day_button {
+      background-color: rgba(245,239,230,0.10) !important;
+      color:            rgba(255,255,255,0.9) !important;
+      border-radius:    0 !important;
+    }
+
+    /* ── Divider between the two months + breathing room ── */
+    .rdp-navy .rdp-month + .rdp-month {
+      border-left:  1px solid rgba(201,168,76,0.15) !important;
+      padding-left: 32px !important;   /* space between divider and right calendar */
     }
   `;
   document.head.appendChild(s);
@@ -60,10 +134,9 @@ export default function CalendarPicker({ isOpen, onClose, range, onRangeChange, 
   const [style, setStyle] = useState({});
   const [draft, setDraft] = useState({ from: undefined, to: undefined });
 
-  // Sync draft to committed range each time picker opens
   useEffect(() => {
     if (isOpen) setDraft(range ?? { from: undefined, to: undefined });
-  }, [isOpen]); // intentionally not watching `range`
+  }, [isOpen]);
 
   // ── Positioning: match anchor width exactly ──────────────────
   const updatePosition = useCallback(() => {
@@ -90,7 +163,7 @@ export default function CalendarPicker({ isOpen, onClose, range, onRangeChange, 
     };
   }, [isOpen, updatePosition]);
 
-  // ── Outside-click → discard draft, close ────────────────────
+  // ── Outside-click ────────────────────────────────────────────
   useEffect(() => {
     if (!isOpen) return;
     const handler = (e) => {
@@ -105,7 +178,7 @@ export default function CalendarPicker({ isOpen, onClose, range, onRangeChange, 
     return () => { clearTimeout(timer); document.removeEventListener('mousedown', handler); };
   }, [isOpen, onClose, anchorRef]);
 
-  // ── Escape → discard draft, close ───────────────────────────
+  // ── Escape ───────────────────────────────────────────────────
   useEffect(() => {
     if (!isOpen) return;
     const handler = (e) => { if (e.key === 'Escape') onClose(); };
@@ -113,13 +186,8 @@ export default function CalendarPicker({ isOpen, onClose, range, onRangeChange, 
     return () => document.removeEventListener('keydown', handler);
   }, [isOpen, onClose]);
 
-  // ── Confirm: commit draft to parent then close ───────────────
-  const handleConfirm = () => {
-    onRangeChange(draft);
-    onClose();
-  };
-
-  const canConfirm = !!draft.from;
+  const handleConfirm = () => { onRangeChange(draft); onClose(); };
+  const canConfirm    = !!draft.from;
 
   const confirmLabel = (() => {
     if (!draft.from) return 'Select a check-in date';
@@ -135,21 +203,36 @@ export default function CalendarPicker({ isOpen, onClose, range, onRangeChange, 
       className="animate-fade-in"
       style={{
         ...style,
-        background: '#fff',
-        boxShadow:  '0 8px 40px rgba(11,24,41,0.18)',
-        border:     `1px solid ${theme.colors.border}`,
+        background: theme.colors.navy,
+        boxShadow:  '0 8px 40px rgba(11,24,41,0.35)',
+        border:     '1px solid rgba(201,168,76,0.3)',
         overflow:   'hidden',
         boxSizing:  'border-box',
       }}
     >
-      {/* ── Status strip ───────────────────────────────────── */}
+      {/* ── Decorative corner border ─────────────────────────── */}
       <div
         style={{
-          padding:    '12px 20px',
-          background: theme.colors.navy,
-          display:    'flex',
-          alignItems: 'center',
-          gap:        10,
+          position:         'absolute',
+          inset:            0,
+          backgroundImage:  `url(${borderImg})`,
+          backgroundSize:   '100% 100%',
+          backgroundRepeat: 'no-repeat',
+          pointerEvents:    'none',
+          zIndex:           0,
+        }}
+      />
+
+      {/* ── Status strip ─────────────────────────────────────── */}
+      <div
+        style={{
+          position:     'relative',
+          zIndex:       1,
+          padding:      '14px 20px',
+          borderBottom: '1px solid rgba(201,168,76,0.2)',
+          display:      'flex',
+          alignItems:   'center',
+          gap:          10,
         }}
       >
         <span
@@ -163,27 +246,19 @@ export default function CalendarPicker({ isOpen, onClose, range, onRangeChange, 
               ? theme.colors.gold
               : draft.from
                 ? theme.colors.roseGold
-                : 'rgba(255,255,255,0.3)',
+                : 'rgba(255,255,255,0.25)',
           }}
         />
-        <span
-          style={{
-            color:         'rgba(255,255,255,0.85)',
-            fontFamily:    theme.fonts.sans,
-            fontSize:      12,
-            letterSpacing: '0.06em',
-            flex:          1,
-          }}
-        >
+        <span style={{ color: 'rgba(255,255,255,0.85)', fontFamily: theme.fonts.sans, fontSize: 12, letterSpacing: '0.06em', flex: 1 }}>
           {confirmLabel}
         </span>
         {(draft.from || draft.to) && (
           <button
             onClick={() => setDraft({ from: undefined, to: undefined })}
             style={{
-              background:    'none',
-              border:        '1px solid rgba(255,255,255,0.25)',
-              color:         'rgba(255,255,255,0.6)',
+              background:    'white',
+              border:        '1px solid white',
+              color:         'black',
               fontFamily:    theme.fonts.sans,
               fontSize:      10,
               letterSpacing: '0.12em',
@@ -198,8 +273,23 @@ export default function CalendarPicker({ isOpen, onClose, range, onRangeChange, 
         )}
       </div>
 
-      {/* ── DayPicker ──────────────────────────────────────── */}
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      {/* ── DayPicker ────────────────────────────────────────── */}
+      {/*
+        Wrapper gets the rdp-navy class so all our CSS selectors apply.
+        We do NOT set width/flex on anything inside — the library owns its layout.
+        Padding here creates breathing room around the calendar.
+      */}
+      <div
+        className="rdp-navy"
+        style={{
+          position:       'relative',
+          zIndex:         1,
+          padding:        isMobile ? '12px 8px' : '16px 24px',
+          boxSizing:      'border-box',
+          display:        'flex',
+          justifyContent: 'center',   // centres the calendar horizontally
+        }}
+      >
         <DayPicker
           mode="range"
           selected={draft}
@@ -210,11 +300,13 @@ export default function CalendarPicker({ isOpen, onClose, range, onRangeChange, 
         />
       </div>
 
-      {/* ── Cancel / Confirm footer ─────────────────────────── */}
+      {/* ── Footer ───────────────────────────────────────────── */}
       <div
         style={{
+          position:  'relative',
+          zIndex:    1,
           padding:   '12px 16px',
-          borderTop: `1px solid ${theme.colors.border}`,
+          borderTop: '1px solid rgba(201,168,76,0.2)',
           display:   'flex',
           gap:       10,
         }}
@@ -224,9 +316,9 @@ export default function CalendarPicker({ isOpen, onClose, range, onRangeChange, 
           style={{
             flex:          '0 0 auto',
             padding:       '12px 20px',
-            background:    'none',
-            border:        `1px solid ${theme.colors.border}`,
-            color:         theme.colors.textMuted,
+            background:    'white',
+            border:        '1px solid white',
+            color:         'black',
             fontFamily:    theme.fonts.sans,
             fontSize:      12,
             fontWeight:    600,
@@ -243,8 +335,8 @@ export default function CalendarPicker({ isOpen, onClose, range, onRangeChange, 
           style={{
             flex:          1,
             padding:       '12px',
-            background:    canConfirm ? theme.colors.navy : theme.colors.border,
-            color:         canConfirm ? theme.colors.white : theme.colors.textLight,
+            background:    canConfirm ? theme.colors.gold : 'rgba(255,255,255,0.08)',
+            color:         canConfirm ? theme.colors.navy : 'rgba(255,255,255,0.3)',
             border:        'none',
             fontFamily:    theme.fonts.sans,
             fontWeight:    700,

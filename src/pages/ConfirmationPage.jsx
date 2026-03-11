@@ -4,6 +4,7 @@ import { useBooking } from '../context/BookingContext';
 import theme from '../styles/theme';
 import { formatDateShort } from '../utils/dateUtils';
 import useWindowSize from '../hooks/useWindowSize';
+import borderImg from '../assets/borders.png';
 
 export default function ConfirmationPage() {
   const { isMobile }              = useWindowSize();
@@ -13,7 +14,6 @@ export default function ConfirmationPage() {
 
   const headerH = isMobile ? 122 : 160;
 
-  // If someone lands here without a confirmation, send them home
   useEffect(() => {
     if (!booking.confirmationRef) navigate('/', { replace: true });
   }, [booking.confirmationRef, navigate]);
@@ -73,9 +73,7 @@ export default function ConfirmationPage() {
             alt={room.name}
             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
           />
-          {/* Dark gradient overlay */}
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(11,24,41,0.78) 0%, rgba(11,24,41,0.18) 55%, transparent 100%)' }} />
-          {/* Room name centred */}
           <div
             style={{
               position:  'absolute',
@@ -115,19 +113,34 @@ export default function ConfirmationPage() {
           boxSizing: 'border-box',
         }}
       >
+        {/* Navy box — position:relative + isolation so overlay blends correctly */}
         <div
           style={{
             background:          theme.colors.navy,
+            position:            'relative',
             display:             'grid',
             gridTemplateColumns: isMobile ? '1fr' : '1fr 1px 1fr',
             borderTop:           `3px solid ${theme.colors.gold}`,
           }}
         >
+          {/* ── Decorative corner border overlay ── */}
+          <div
+            style={{
+              position:         'absolute',
+              inset:            0,
+              backgroundImage:  `url(${borderImg})`,
+              backgroundSize:   '100% 100%',
+              backgroundRepeat: 'no-repeat',
+              opacity:          0.9,
+              pointerEvents:    'none',
+              zIndex:           0,
+            }}
+          />
+
           {/* LEFT — Reservation details */}
-          <div style={{ padding: isMobile ? '32px 28px' : '44px 48px' }}>
+          <div style={{ padding: isMobile ? '32px 28px' : '44px 48px', position: 'relative', zIndex: 1 }}>
             <p style={summaryLabel}>Reservation Summary</p>
 
-            {/* Ref number — large */}
             <p
               style={{
                 fontFamily:  theme.fonts.serif,
@@ -140,7 +153,6 @@ export default function ConfirmationPage() {
               Ref: {ref}
             </p>
 
-            {/* Check-in / Check-out row */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginBottom: 24 }}>
               <div>
                 <p style={detailLabel}>Check In</p>
@@ -160,10 +172,12 @@ export default function ConfirmationPage() {
           </div>
 
           {/* Vertical divider */}
-          {!isMobile && <div style={{ width: 1, background: 'rgba(255,255,255,0.1)' }} />}
+          {!isMobile && (
+            <div style={{ width: 1, background: 'rgba(255,255,255,0.1)', position: 'relative', zIndex: 1 }} />
+          )}
 
           {/* RIGHT — Payment details */}
-          <div style={{ padding: isMobile ? '0 28px 32px' : '44px 48px' }}>
+          <div style={{ padding: isMobile ? '0 28px 32px' : '44px 48px', position: 'relative', zIndex: 1 }}>
             <p style={summaryLabel}>Payment Details</p>
 
             <div style={{ marginBottom: 8 }}>
@@ -172,7 +186,6 @@ export default function ConfirmationPage() {
               <CostRow label="Taxes & Fees" value="—" light />
             </div>
 
-            {/* Total */}
             <div
               style={{
                 display:        'flex',
@@ -203,7 +216,6 @@ export default function ConfirmationPage() {
               Charged to card ending in ****{last4}
             </p>
 
-            {/* Download receipt style button (matches PDF "COMPLETE PAYMENT" in confirmation) */}
             <button
               style={{
                 width:         '100%',
@@ -279,7 +291,6 @@ export default function ConfirmationPage() {
             border:              `1px solid ${theme.colors.border}`,
           }}
         >
-          {/* Hotel Address */}
           <div style={{ padding: isMobile ? '28px 24px' : '36px 40px' }}>
             <p style={{ color: theme.colors.navy, fontSize: 11, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', fontFamily: theme.fonts.sans, marginBottom: 14 }}>
               Hotel Address
@@ -294,7 +305,6 @@ export default function ConfirmationPage() {
 
           {!isMobile && <div style={{ width: 1, background: theme.colors.border }} />}
 
-          {/* Need Assistance */}
           <div style={{ padding: isMobile ? '0 24px 28px' : '36px 40px' }}>
             <p style={{ color: theme.colors.navy, fontSize: 11, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', fontFamily: theme.fonts.sans, marginBottom: 14 }}>
               Need Assistance?
@@ -371,7 +381,6 @@ function CostRow({ label, value, light }) {
   );
 }
 
-// Shared styles
 const summaryLabel = {
   color:         theme.colors.gold,
   fontSize:      10,

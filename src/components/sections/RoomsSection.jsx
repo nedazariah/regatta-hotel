@@ -35,8 +35,8 @@ export default function RoomsSection() {
         boxSizing:        'border-box',
         overflow:         'hidden',
         position:         'relative',
-        borderBottom:     '5px solid',
-        borderBottomColor:'white',
+        borderBottom:     '5px double',
+        borderBottomColor:theme.colors.goldLight,
       }}
     >
       <div

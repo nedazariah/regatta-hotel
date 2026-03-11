@@ -7,6 +7,7 @@ import FilterTabs from '../components/ui/FilterTabs';
 import { ROOMS, ROOM_CATEGORIES } from '../data/rooms';
 import { getNights } from '../utils/dateUtils';
 import useWindowSize from '../hooks/useWindowSize';
+import borderImg from '../assets/borders.png';
 
 const HEADER_H = 160; // desktop header height
 
@@ -17,17 +18,15 @@ export default function RoomsPage() {
   const { booking, updateBooking } = useBooking();
 
   const [activeFilter,  setActiveFilter]  = useState('All Rooms');
-  const [expandedId,    setExpandedId]    = useState(null); // which card is expanded
+  const [expandedId,    setExpandedId]    = useState(null);
   const expandedRef                       = useRef(null);
 
-  // Pre-expand a room if navigated here with state
   useEffect(() => {
     if (location.state?.openRoom) {
       setExpandedId(location.state.openRoom);
     }
   }, [location.state]);
 
-  // Scroll to expanded card
   useEffect(() => {
     if (expandedId && expandedRef.current) {
       setTimeout(() => {
@@ -82,8 +81,6 @@ export default function RoomsPage() {
           Immerse yourself in urban comfort. Each of our 144 rooms is designed for your
           relaxation, with Slumberland mattresses and modern amenities throughout.
         </p>
-
-        {/* SearchBar — booking variant with date fields and guest selector */}
         <SearchBar variant="booking" />
       </section>
 
@@ -105,7 +102,6 @@ export default function RoomsPage() {
             >
               {/* ── Collapsed card ─────────────────────── */}
               <div style={{ padding: isMobile ? '28px 0' : '36px 0' }}>
-                {/* Full-width photo */}
                 <div
                   style={{
                     width:    '100%',
@@ -130,7 +126,6 @@ export default function RoomsPage() {
                   />
                 </div>
 
-                {/* Name + description + VIEW DETAILS button */}
                 <div
                   style={{
                     display:        'flex',
@@ -198,11 +193,6 @@ export default function RoomsPage() {
   );
 }
 
-/**
- * Expanded inline panel — matches PDF page 1 expanded state:
- * LEFT: photo carousel with prev/next arrows + "1 OF N" counter
- * RIGHT: dark navy panel — room name, long description, price, RESERVE NOW
- */
 function ExpandedRoomPanel({ room, isMobile, booking, onReserve }) {
   const [imgIdx, setImgIdx] = useState(0);
   const total  = room.images.length;
@@ -240,12 +230,9 @@ function ExpandedRoomPanel({ room, isMobile, booking, onReserve }) {
           />
         ))}
 
-        {/* Left arrow */}
         <button onClick={prev} style={carouselArrow('left')} aria-label="Previous photo">&#8249;</button>
-        {/* Right arrow */}
         <button onClick={next} style={carouselArrow('right')} aria-label="Next photo">&#8250;</button>
 
-        {/* "1 OF N" counter — bottom centre */}
         <div
           style={{
             position:      'absolute',
@@ -264,22 +251,21 @@ function ExpandedRoomPanel({ room, isMobile, booking, onReserve }) {
           {imgIdx + 1} OF {total}
         </div>
 
-        {/* Thumbnail strip — bottom right */}
         <div style={{ position: 'absolute', bottom: 16, right: 16, display: 'flex', gap: 6 }}>
           {room.images.map((src, i) => (
             <button
               key={i}
               onClick={() => setImgIdx(i)}
               style={{
-                width:        40,
-                height:       28,
-                padding:      0,
-                border:       `2px solid ${i === imgIdx ? theme.colors.gold : 'rgba(255,255,255,0.35)'}`,
-                overflow:     'hidden',
-                cursor:       'pointer',
-                background:   'none',
-                transition:   'border-color 0.2s',
-                flexShrink:   0,
+                width:      40,
+                height:     28,
+                padding:    0,
+                border:     `2px solid ${i === imgIdx ? theme.colors.gold : 'rgba(255,255,255,0.35)'}`,
+                overflow:   'hidden',
+                cursor:     'pointer',
+                background: 'none',
+                transition: 'border-color 0.2s',
+                flexShrink: 0,
               }}
             >
               <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -288,113 +274,130 @@ function ExpandedRoomPanel({ room, isMobile, booking, onReserve }) {
         </div>
       </div>
 
-      {/* RIGHT — dark navy info panel */}
+      {/* RIGHT — dark navy info panel with decorative border overlay */}
       <div
         style={{
           background:    theme.colors.navy,
+          position:      'relative',   // needed for overlay positioning
           padding:       isMobile ? '32px 24px 36px' : '40px 40px 44px',
           display:       'flex',
           flexDirection: 'column',
           justifyContent:'space-between',
         }}
       >
-        {/* Top: name + description */}
-        <div>
-          <p style={{ color: theme.colors.gold, fontSize: 10, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', fontFamily: theme.fonts.sans, marginBottom: 12 }}>
-            {room.category}
-          </p>
-          <h2
-            style={{
-              fontFamily:  theme.fonts.serif,
-              fontSize:    isMobile ? 26 : 34,
-              fontWeight:  400,
-              color:       theme.colors.white,
-              marginBottom: 18,
-              lineHeight:  1.15,
-            }}
-          >
-            {room.name}
-          </h2>
-          <p
-            style={{
-              color:      'rgba(255,255,255,0.65)',
-              fontSize:   14,
-              lineHeight: 1.8,
-              marginBottom: 28,
-            }}
-          >
-            {room.longDescription}
-          </p>
+        {/* ── Decorative corner border overlay ── */}
+        <div
+          style={{
+            position:          'absolute',
+            inset:             0,
+            backgroundImage:   `url(${borderImg})`,
+            backgroundSize:    '100% 100%',
+            backgroundRepeat:  'no-repeat',
+            opacity:           0.9,
+            pointerEvents:     'none',
+            zIndex:            0,
+          }}
+        />
 
-          {/* Amenity highlights */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 16px', marginBottom: 28 }}>
-            {room.amenities.slice(0, 6).map((a) => (
-              <span
-                key={a}
-                style={{
-                  color:         'rgba(255,255,255,0.5)',
-                  fontSize:      11,
-                  fontFamily:    theme.fonts.sans,
-                  display:       'flex',
-                  alignItems:    'center',
-                  gap:           5,
-                }}
-              >
-                <span style={{ color: theme.colors.gold, fontSize: 8 }}>✦</span>
-                {a}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Bottom: price + button */}
-        <div>
-          <div
-            style={{
-              borderTop:    '1px solid rgba(255,255,255,0.12)',
-              paddingTop:   24,
-              marginBottom: 20,
-            }}
-          >
-            <span
+        {/* All content sits above the overlay */}
+        <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
+          {/* Top: name + description */}
+          <div>
+            <p style={{ color: theme.colors.gold, fontSize: 10, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', fontFamily: theme.fonts.sans, marginBottom: 12 }}>
+              {room.category}
+            </p>
+            <h2
               style={{
                 fontFamily:  theme.fonts.serif,
-                fontSize:    isMobile ? 36 : 44,
-                fontWeight:  600,
+                fontSize:    isMobile ? 26 : 34,
+                fontWeight:  400,
                 color:       theme.colors.white,
+                marginBottom: 18,
+                lineHeight:  1.15,
               }}
             >
-              {room.currency}{room.price}
-            </span>
-            <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, fontFamily: theme.fonts.sans }}> /night</span>
+              {room.name}
+            </h2>
+            <p
+              style={{
+                color:      'rgba(255,255,255,0.65)',
+                fontSize:   14,
+                lineHeight: 1.8,
+                marginBottom: 28,
+              }}
+            >
+              {room.longDescription}
+            </p>
+
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 16px', marginBottom: 28 }}>
+              {room.amenities.slice(0, 6).map((a) => (
+                <span
+                  key={a}
+                  style={{
+                    color:      'rgba(255,255,255,0.5)',
+                    fontSize:   11,
+                    fontFamily: theme.fonts.sans,
+                    display:    'flex',
+                    alignItems: 'center',
+                    gap:        5,
+                  }}
+                >
+                  <span style={{ color: theme.colors.gold, fontSize: 8 }}>✦</span>
+                  {a}
+                </span>
+              ))}
+            </div>
           </div>
 
-          <button
-            onClick={() => onReserve(room)}
-            style={{
-              width:         '100%',
-              padding:       '16px',
-              background:    theme.colors.white,
-              color:         theme.colors.navy,
-              border:        'none',
-              borderRadius:  0,
-              fontFamily:    theme.fonts.sans,
-              fontSize:      12,
-              fontWeight:    700,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              cursor:        'pointer',
-              transition:    'background 0.2s',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = theme.colors.cream)}
-            onMouseLeave={(e) => (e.currentTarget.style.background = theme.colors.white)}
-          >
-            Reserve Now
-          </button>
+          {/* Bottom: price + button */}
+          <div>
+            <div
+              style={{
+                borderTop:    '1px solid rgba(255,255,255,0.12)',
+                paddingTop:   24,
+                marginBottom: 20,
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: theme.fonts.serif,
+                  fontSize:   isMobile ? 36 : 44,
+                  fontWeight: 600,
+                  color:      theme.colors.white,
+                }}
+              >
+                {room.currency}{room.price}
+              </span>
+              <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, fontFamily: theme.fonts.sans }}> /night</span>
+            </div>
 
-          <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11, textAlign: 'center', marginTop: 12, fontFamily: theme.fonts.sans }}>
-            Refundable deposit: RM 200 · Free cancellation until check-in
-          </p>
+            <button
+              onClick={() => onReserve(room)}
+              style={{
+                width:         '100%',
+                padding:       '16px',
+                background:    theme.colors.white,
+                color:         theme.colors.navy,
+                border:        'none',
+                borderRadius:  0,
+                fontFamily:    theme.fonts.sans,
+                fontSize:      12,
+                fontWeight:    700,
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+                cursor:        'pointer',
+                transition:    'background 0.2s',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = theme.colors.cream)}
+              onMouseLeave={(e) => (e.currentTarget.style.background = theme.colors.white)}
+            >
+              Reserve Now
+            </button>
+
+            <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11, textAlign: 'center', marginTop: 12, fontFamily: theme.fonts.sans }}>
+              Refundable deposit: RM 200 · Free cancellation until check-in
+            </p>
+          </div>
         </div>
       </div>
     </div>
