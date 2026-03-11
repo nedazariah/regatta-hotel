@@ -97,7 +97,7 @@ export default function ConfirmationPage() {
             >
               {room.name}
             </h2>
-            <p style={{ color: 'rgba(255,255,255,0.72)', fontSize: 13, fontFamily: theme.fonts.sans }}>
+            <p style={{ color: 'rgba(255,255,255,0.72)', fontSize: 13, fontFamily: theme.fonts.sans, width: '55%', margin: 'auto'}}>
               {room.shortDescription.split('.')[0]}.
             </p>
           </div>

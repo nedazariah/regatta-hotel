@@ -24,6 +24,12 @@ export default function SearchBar({ variant = 'hero', onSearchComplete }) {
   const [roomCount, setRoomCount] = useState(booking.rooms ?? 1);
   const roomDisplay = `${roomCount} Room${roomCount > 1 ? 's' : ''}`;
 
+  const DropdownArrowSVG = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="yellow" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M6 9l6 6 6-6"/>
+  </svg>
+);
+
   const handleRoomChange = (e) => {
     const val = Number(e.target.value);
     setRoomCount(val);
@@ -55,9 +61,17 @@ export default function SearchBar({ variant = 'hero', onSearchComplete }) {
   })();
 
   const dateLabel =
-    booking.checkIn && booking.checkOut
-      ? `${formatDateNumeric(booking.checkIn)}  →  ${formatDateNumeric(booking.checkOut)}`
-      : 'Select dates';
+    booking.checkIn && booking.checkOut ? (
+    <>
+      {formatDateNumeric(booking.checkIn)}
+      &emsp;
+      &emsp;
+      &emsp;
+      {formatDateNumeric(booking.checkOut)}
+    </>
+  ) : (
+    'Select dates'
+  );
 
   const handleSearch = () => {
     if (isHero) navigate('/rooms');
@@ -86,7 +100,7 @@ export default function SearchBar({ variant = 'hero', onSearchComplete }) {
       <div
         style={{
           width:      '2px',
-          height:     '60px',
+          height:     '80px',
           background: ROSE_GOLD_DIVIDER,
           alignSelf:  'center',
           flexShrink: 0,
@@ -96,12 +110,13 @@ export default function SearchBar({ variant = 'hero', onSearchComplete }) {
 
     const cellLabel = {
       color:         ROSE_GOLD,
-      fontSize:      isMobile ? 10 : 11,
+      fontSize:      isMobile ? 10 : 14,
       fontWeight:    700,
       letterSpacing: '0.2em',
       textTransform: 'uppercase',
       fontFamily:    theme.fonts.sans,
       display:       'flex',
+      justifyContent:'center',
       alignItems:    'center',
       gap:           8,
       marginBottom:  9,
@@ -109,7 +124,7 @@ export default function SearchBar({ variant = 'hero', onSearchComplete }) {
 
     const cellValue = {
       color:         '#FFFFFF',
-      fontSize:      isMobile ? 14 : 17,
+      fontSize:      isMobile ? 14 : 15,
       fontWeight:    300,
       fontFamily:    theme.fonts.sans,
       letterSpacing: '0.01em',
@@ -119,7 +134,7 @@ export default function SearchBar({ variant = 'hero', onSearchComplete }) {
       padding:        isMobile ? '20px 22px' : '28px 40px',
       display:        'flex',
       flexDirection:  'column',
-      justifyContent: 'center',
+      textAlign:      'center',
       flex:           1,
       minWidth:       0,
     };
@@ -141,7 +156,7 @@ export default function SearchBar({ variant = 'hero', onSearchComplete }) {
         {/* ── Dates ── */}
         <button
           onClick={() => setCalendarOpen((o) => !o)}
-          style={{ ...cell, background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer' }}
+          style={{ ...cell, background: 'none', border: 'none', cursor: 'pointer' }}
         >
           <div style={cellLabel}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
@@ -153,7 +168,12 @@ export default function SearchBar({ variant = 'hero', onSearchComplete }) {
             </svg>
             Select Your Dates
           </div>
-          <div style={cellValue}>{dateLabel}</div>
+          <div style={cellValue}>
+            {dateLabel}
+            <svg width="24" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"> 
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </div>
         </button>
 
         {!isMobile && <FloatingDivider />}
@@ -164,6 +184,10 @@ export default function SearchBar({ variant = 'hero', onSearchComplete }) {
           <div style={{ position: 'relative' }}>
             <div style={{ ...cellValue, pointerEvents: 'none', position: 'relative', zIndex: 1 }}>
               {roomDisplay}
+              &emsp;
+              <svg width="24" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"> 
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
             </div>
             <select value={String(roomCount)} onChange={handleRoomChange} style={overlaySelect}>
               {ROOMS_NO_OPTIONS.map((o) => (
@@ -181,6 +205,10 @@ export default function SearchBar({ variant = 'hero', onSearchComplete }) {
           <div style={{ position: 'relative' }}>
             <div style={{ ...cellValue, pointerEvents: 'none', position: 'relative', zIndex: 1 }}>
               {guestDisplay}
+              &emsp;
+              <svg width="24" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"> 
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
             </div>
             <select value={guestSelectValue} onChange={handleGuestChange} style={overlaySelect}>
               {GUEST_OPTIONS.map((o) => (
@@ -190,7 +218,7 @@ export default function SearchBar({ variant = 'hero', onSearchComplete }) {
           </div>
         </div>
 
-        {!isMobile && <FloatingDivider />}
+        {/* {!isMobile && <FloatingDivider />} */}
 
         {/* ── CTA ── */}
         <div style={{
@@ -244,10 +272,12 @@ export default function SearchBar({ variant = 'hero', onSearchComplete }) {
       ref={wrapperRef}
       style={{
         position:      'relative',
-        background:    theme.colors.white,
-        border:        `1px solid ${theme.colors.border}`,
+        background:    theme.colors.cream,
+        // background:    theme.colors.white,
+        // border:        `1px solid ${theme.colors.border}`,
         display:       'flex',
         flexDirection: isMobile ? 'column' : 'row',
+        justifyContent: 'space-around',
         alignItems:    'stretch',
       }}
     >
@@ -258,22 +288,31 @@ export default function SearchBar({ variant = 'hero', onSearchComplete }) {
           padding:      isMobile ? '14px 18px' : '16px 28px',
           background:   'none',
           border:       'none',
-          borderRight:  !isMobile ? `1px solid ${theme.colors.border}` : 'none',
+          borderRight:  !isMobile ? `2px solid ${theme.colors.gold}` : 'none',
           borderBottom: isMobile  ? `1px solid ${theme.colors.border}` : 'none',
-          textAlign:    'left',
+          textAlign:    'center',
           cursor:       'pointer',
         }}
       >
-        <div style={{ color: theme.colors.gold, fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 5 }}>
+        <div style={{ color: 'black', fontSize: 13, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 5 }}>
           Select Your Dates
         </div>
-        <div style={{ color: theme.colors.navy, fontSize: 14 }}>{dateLabel}</div>
+        <div style={{ color: theme.colors.gold, fontSize: 14}}>{dateLabel} 
+          <svg width="24" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"> 
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </div>
       </button>
 
-      <div style={{ flex: '0 0 auto', padding: isMobile ? '14px 18px' : '16px 28px', borderRight: !isMobile ? `1px solid ${theme.colors.border}` : 'none', borderBottom: isMobile ? `1px solid ${theme.colors.border}` : 'none' }}>
-        <div style={{ color: theme.colors.gold, fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 5 }}>Rooms</div>
+      <div style={{ flex: '1', textAlign: 'center', padding: isMobile ? '14px 18px' : '16px 28px', borderRight: !isMobile ? `2px solid ${theme.colors.gold}` : 'none', borderBottom: isMobile ? `1px solid ${theme.colors.border}` : 'none' }}>
+        <div style={{ color: 'black', fontSize: 13, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 5 }}>Rooms</div>
         <div style={{ position: 'relative' }}>
-          <div style={{ color: theme.colors.navy, fontSize: 14, pointerEvents: 'none' }}>{roomDisplay}</div>
+          <div style={{ color: theme.colors.gold, fontSize: 14, pointerEvents: 'none' }}>
+            {roomDisplay}
+            <svg width="24" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"> 
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </div>
           <select value={String(roomCount)} onChange={handleRoomChange}
             style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer', width: '100%', fontSize: 16 }}>
             {ROOMS_NO_OPTIONS.map((o) => (
@@ -283,10 +322,15 @@ export default function SearchBar({ variant = 'hero', onSearchComplete }) {
         </div>
       </div>
 
-      <div style={{ flex: '0 0 auto', padding: isMobile ? '14px 18px' : '16px 28px', borderRight: !isMobile ? `1px solid ${theme.colors.border}` : 'none', borderBottom: isMobile ? `1px solid ${theme.colors.border}` : 'none' }}>
-        <div style={{ color: theme.colors.gold, fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 5 }}>Guests</div>
+      <div style={{ flex: '1', textAlign: 'center', padding: isMobile ? '14px 18px' : '16px 28px', borderRight: !isMobile ? `1px solid ${theme.colors.border}` : 'none', borderBottom: isMobile ? `1px solid ${theme.colors.border}` : 'none' }}>
+        <div style={{ color: 'black', fontSize: 13, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 5 }}>Guests</div>
         <div style={{ position: 'relative' }}>
-          <div style={{ color: theme.colors.navy, fontSize: 14, pointerEvents: 'none' }}>{guestDisplay}</div>
+          <div style={{ color: theme.colors.gold, fontSize: 14, pointerEvents: 'none' }}>
+            {guestDisplay}
+            <svg width="24" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"> 
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </div>
           <select value={guestSelectValue} onChange={handleGuestChange}
             style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer', width: '100%', fontSize: 16 }}>
             {GUEST_OPTIONS.map((o) => (
