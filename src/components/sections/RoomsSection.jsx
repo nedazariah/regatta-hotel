@@ -35,8 +35,8 @@ export default function RoomsSection() {
         boxSizing:        'border-box',
         overflow:         'hidden',
         position:         'relative',
-        border:           '1px solid',
-        borderBottomColor: theme.colors.gold,
+        borderBottom:     '5px solid',
+        borderBottomColor:'white',
       }}
     >
       <div
@@ -111,6 +111,7 @@ export default function RoomsSection() {
           flex:           '0 0 auto',
           height:         '50%',
           width:          isMobile ? '100%' : '20%',
+          borderRadius:   isMobile ? '50%' : 0,
           padding:        isMobile ? '48px 32px 36px' : '10px 10px',
           display:        'flex',
           flexDirection:  'column',
